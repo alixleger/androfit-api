@@ -22,11 +22,9 @@ Create a `.env` from template with the credentials.
 
 ### Database implementation
 
-Create the database:
-
 ```bash
 $ bin/console doctrine:database:create
-$ bin/console doctrine:schema:create
+$ bin/console doctrine:migrations:migrate
 ```
 
 ### Launch the webserver (local only)
