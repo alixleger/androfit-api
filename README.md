@@ -20,9 +20,13 @@ $ composer install
 
 Create a `.env` from template with the credentials.
 
-### Database implementation
+### JWT Generation
 
-Create the database:
+```bash
+$ ./.generateJWTKeys 
+```
+
+### Database implementation
 
 ```bash
 $ bin/console doctrine:database:create
