@@ -10,3 +10,9 @@ register:
   path: /register
   controller: App\Controller\AuthController::register
   methods: ['POST']
+
+gesdinet_jwt_refresh_token:
+  path: /token/refresh
+  controller: gesdinet.jwtrefreshtoken::refresh
+  methods: ['POST']
+
