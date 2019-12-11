@@ -15,15 +15,17 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Entity
  * @ApiResource(
  *     attributes={
- *         "normalization_context"={"groups"={"read"}},
- *         "denormalization_context"={"groups"={"write"}}
- *     }
+ *         "normalization_context"={"groups"={"user:read"}},
+ *         "denormalization_context"={"groups"={"user:write"}}
+ *     },
+ *     collectionOperations={"get"},
+ *     itemOperations={"get", "patch", "put"}
  * )
  */
 class User implements UserInterface
 {
     /**
-     * @Groups({"read"})
+     * @Groups({"user:read", "friend_request:read", "meal:read", "session:read", "meal:write", "session:write", "friend_request:write"})
      *
      * @ORM\Id()
      * @ORM\GeneratedValue()
@@ -37,7 +39,7 @@ class User implements UserInterface
      * @Assert\NotBlank()
      * @Assert\Unique()
      *
-     * @Groups({"read", "write"})
+     * @Groups({"user:read", "user:write", "friend_request:read", "meal:read", "session:read"})
      *
      * @ORM\Column(type="string", unique=true)
      *
@@ -55,8 +57,6 @@ class User implements UserInterface
     private $password;
 
     /**
-     * @Groups({"read", "write"})
-     *
      * @ORM\Column(name="is_active", type="boolean")
      *
      * @var bool
@@ -66,7 +66,7 @@ class User implements UserInterface
     /**
      * @ApiSubresource(maxDepth=1)
      *
-     * @Groups({"read", "write"})
+     * @Groups({"user:read", "user:write"})
      *
      * @ORM\OneToMany(targetEntity=Session::class, mappedBy="creator", orphanRemoval=true)
      *
@@ -77,7 +77,7 @@ class User implements UserInterface
     /**
      * @ApiSubresource(maxDepth=1)
      *
-     * @Groups({"read", "write"})
+     * @Groups({"user:read", "user:write"})
      *
      * @ORM\OneToMany(targetEntity=Meal::class, mappedBy="creator", orphanRemoval=true)
      *
@@ -86,9 +86,9 @@ class User implements UserInterface
     private $meals;
 
     /**
-     * @ApiSubresource(maxDepth=1)
+     * @ApiSubresource(maxDepth=2)
      *
-     * @Groups({"read", "write"})
+     * @Groups({"user:read", "user:write"})
      *
      * @ORM\OneToMany(targetEntity=FriendRequest::class, mappedBy="user", orphanRemoval=true)
      *

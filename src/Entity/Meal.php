@@ -12,15 +12,15 @@ use Symfony\Component\Serializer\Annotation\Groups;
  * @ORM\Entity
  * @ApiResource(
  *     attributes={
- *         "normalization_context"={"groups"={"read"}},
- *         "denormalization_context"={"groups"={"write"}}
+ *         "normalization_context"={"groups"={"meal:read"}},
+ *         "denormalization_context"={"groups"={"meal:write"}}
  *     }
  * )
 */
 class Meal
 {
     /**
-     * @Groups({"read"})
+     * @Groups({"meal:read", "user:read"})
      *
      * @ORM\Id()
      * @ORM\GeneratedValue()
@@ -33,7 +33,7 @@ class Meal
     /**
      * @ApiSubresource(maxDepth=1)
      *
-     * @Groups({"read", "write"})
+     * @Groups({"meal:read", "meal:write"})
      *
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="meals")
      *
@@ -42,7 +42,7 @@ class Meal
     private $creator;
 
     /**
-     * @Groups({"read", "write"})
+     * @Groups({"meal:read", "meal:write", "user:read", "user:write"})
      *
      * @ORM\Column(name="name", type="string", length=255)
      *
@@ -51,7 +51,7 @@ class Meal
     private $name;
 
     /**
-     * @Groups({"read", "write"})
+     * @Groups({"meal:read", "meal:write", "user:read", "user:write"})
      *
      * @ORM\Column(name="date", type="datetime")
      *
@@ -60,14 +60,13 @@ class Meal
     private $date;
 
     /**
-     * @Groups({"read", "write"})
+     * @Groups({"meal:read", "meal:write", "user:read", "user:write"})
      *
      * @ORM\Column(name="description", type="string", length=1024)
      *
      * @var string
      */
     private $description;
-
 
 
     public function getId()

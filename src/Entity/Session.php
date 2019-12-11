@@ -12,15 +12,15 @@ use Symfony\Component\Serializer\Annotation\Groups;
  * @ORM\Entity
  * @ApiResource(
  *     attributes={
- *         "normalization_context"={"groups"={"read"}},
- *         "denormalization_context"={"groups"={"write"}}
+ *         "normalization_context"={"groups"={"session:read"}},
+ *         "denormalization_context"={"groups"={"session:write"}}
  *     }
  * )
 */
 class Session
 {
     /**
-     * @Groups({"read"})
+     * @Groups({"session:read", "user:read"})
      *
      * @ORM\Id()
      * @ORM\GeneratedValue()
@@ -33,7 +33,7 @@ class Session
     /**
      * @ApiSubresource(maxDepth=1)
      *
-     * @Groups({"read", "write"})
+     * @Groups({"session:read", "session:write"})
      *
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="createdSessions")
      *
@@ -42,7 +42,7 @@ class Session
     private $creator;
 
     /**
-     * @Groups({"read", "write"})
+     * @Groups({"session:read", "session:write", "user:read", "user:write"})
      *
      * @ORM\Column(name="name", type="string")
      *
@@ -51,7 +51,7 @@ class Session
     private $name;
 
     /**
-     * @Groups({"read", "write"})
+     * @Groups({"session:read", "session:write", "user:read", "user:write"})
      *
      * @ORM\Column(name="location", type="string", length=64)
      *
@@ -60,7 +60,7 @@ class Session
     private $location;
 
     /**
-     * @Groups({"read", "write"})
+     * @Groups({"session:read", "session:write", "user:read", "user:write"})
      *
      * @ORM\Column(name="begin_date", type="datetime")
      *
@@ -69,7 +69,7 @@ class Session
     private $beginDate;
 
     /**
-     * @Groups({"read", "write"})
+     * @Groups({"session:read", "session:write", "user:read", "user:write"})
      *
      * @ORM\Column(name="end_date", type="datetime")
      *
@@ -78,7 +78,7 @@ class Session
     private $endDate;
 
     /**
-     * @Groups({"read", "write"})
+     * @Groups({"session:read", "session:write", "user:read", "user:write"})
      *
      * @ORM\Column(name="description", type="string", length=512)
      *

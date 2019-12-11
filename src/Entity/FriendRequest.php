@@ -12,15 +12,15 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Entity
  * @ApiResource(
  *     attributes={
- *         "normalization_context"={"groups"={"read"}},
- *         "denormalization_context"={"groups"={"write"}}
+ *         "normalization_context"={"groups"={"friend_request:read"}},
+ *         "denormalization_context"={"groups"={"friend_request:write"}}
  *     }
  * )
  */
 class FriendRequest
 {
     /**
-     * @Groups({"read"})
+     * @Groups({"friend_request:read", "user:read"})
      *
      * @ORM\Id()
      * @ORM\GeneratedValue()
@@ -33,7 +33,7 @@ class FriendRequest
     /**
      * @ApiSubresource(maxDepth=1)
      *
-     * @Groups({"read", "write"})
+     * @Groups({"friend_request:read", "friend_request:write"})
      *
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="friendRequests")
      *
@@ -42,7 +42,7 @@ class FriendRequest
     private $user;
 
     /**
-     * @Groups({"read", "write"})
+     * @Groups({"friend_request:read", "friend_request:write", "user:read", "user:write"})
      *
      * @ORM\Column(type="boolean", nullable=true)
      *
@@ -51,9 +51,9 @@ class FriendRequest
     private $accepted;
 
     /**
-     * @ApiSubresource(maxDepth=1)
+     * @ApiSubresource(maxDepth=2)
      *
-     * @Groups({"read", "write"})
+     * @Groups({"friend_request:read", "friend_request:write", "user:read", "user:write"})
      *
      * @ORM\ManyToOne(targetEntity=User::class)
      *
